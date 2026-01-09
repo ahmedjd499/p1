@@ -17,15 +17,6 @@ namespace ASPCoreFirstApp.Controllers
         }
 
 
-          public IActionResult Index3()
-      {
-        List <Movie> movies = new List<Movie>{
-            new Movie { Id = 1, name = "Inception" },
-            new Movie { Id = 2, name = "The Matrix" },
-            new Movie { Id = 3, name = "Interstellar" }
-        };
-        return View(movies);
-        }
       }
 }
 
