@@ -1,0 +1,39 @@
+@{
+    ViewData["Title"] = "Accueil";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bienvenue</h1>
+    <p>@ViewData["Message"]</p>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <h2>Routage MVC</h2>
+        <p>
+            ASP.NET Core MVC utilise un système de routage basé sur des patterns pour diriger les requêtes HTTP vers les actions des contrôleurs.
+        </p>
+        <p>
+            Le pattern par défaut est : <code>{controller=Home}/{action=Index}/{id?}</code>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Contrôleurs</h2>
+        <p>
+            Les contrôleurs gèrent les requêtes entrantes, récupèrent les données du modèle et renvoient les vues appropriées.
+        </p>
+        <p>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="About">En savoir plus &raquo;</a>
+        </p>
+    </div>
+    <div class="col-md-4">
+        <h2>Modèle-Vue-Contrôleur</h2>
+        <p>
+            Le pattern MVC sépare l'application en trois composants principaux pour une meilleure organisation du code.
+        </p>
+        <p>
+            <a class="btn btn-primary" asp-controller="Home" asp-action="Contact">Contactez-nous &raquo;</a>
+        </p>
+    </div>
+</div>
