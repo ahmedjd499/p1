@@ -19,9 +19,16 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+// Configure custom route for Movie/released
+app.MapControllerRoute(
+    name: "movieReleased",
+    pattern: "Movie/released/{year}/{month}",
+    defaults: new { controller = "Movie", action = "ByRelease" });
+
 // Configure default route pattern
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();

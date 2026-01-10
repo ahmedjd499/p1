@@ -16,6 +16,16 @@ namespace ASPCoreFirstApp.Controllers
         return View(movies);
         }
 
+      public IActionResult Edit(int id)
+      {
+        return Content($"Movie ID: {id}");
+      }
+
+      // [Route("Movie/released/{year}/{month}")]
+      public IActionResult ByRelease(int year, int month)
+      {
+        return Content($"Released in: {month}/{year}");
+      }
 
       }
 }
