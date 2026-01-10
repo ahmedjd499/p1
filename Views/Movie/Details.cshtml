@@ -5,6 +5,8 @@
 <div>
     <h2>@Model.Movie.name</h2>
     <p>ID du Film: @Model.Movie.Id</p>
+    <a asp-action="Edit" asp-route-id="@Model.Movie.Id">Edit</a>
+
     <h3>Clients associés:</h3>
     <ul>
     @foreach (var customer in Model.Customers)

@@ -1,0 +1,14 @@
+@model ASPCoreFirstApp.Models.Movie
+
+<h2>Edit Movie</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label asp-for="name"></label>
+        <input asp-for="name" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>

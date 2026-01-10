@@ -35,25 +35,79 @@ namespace ASPCoreFirstApp.Controllers
 
       public IActionResult Index()
       {
-        List <Movie> movies = new List<Movie>{
-            new Movie { Id = 1, name = "Inception" },
-            new Movie { Id = 2, name = "The Matrix" },
-            new Movie { Id = 3, name = "Interstellar" }
-        };
         return View(movies);
         }
 
 
-      public IActionResult Edit(int id)
-      {
-        return Content($"Movie ID: {id}");
-      }
+
 
       // [Route("Movie/released/{year}/{month}")]
       public IActionResult ByRelease(int year, int month)
       {
         return Content($"Released in: {month}/{year}");
       }
+
+
+public IActionResult Edit(int id)
+{
+    var movie = movies.FirstOrDefault(m => m.Id == id);
+    if (movie == null)
+        return NotFound();
+
+    return View(movie);
+}
+
+
+//  [HttpDelete]
+public IActionResult Delete(int id)
+{
+    var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
+    if (movieToRemove == null)
+        return NotFound();
+
+    movies.Remove(movieToRemove);
+    return Content(movieToRemove.name + " deleted");
+    // return RedirectToAction("Index");
+}
+
+
+
+[HttpDelete]
+public IActionResult Delete(int id)
+{
+    var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
+    if (movieToRemove == null)
+        return NotFound();
+
+    movies.Remove(movieToRemove);
+    return Content(movieToRemove.name + " deleted");
+    // return RedirectToAction("Index");
+}
+
+
+
+
+[HttpPost]
+public IActionResult Edit(Movie updatedMovie)
+{
+    var movie = movies.FirstOrDefault(m => m.Id == updatedMovie.Id);
+    if (movie == null)
+        return NotFound();
+
+    movie.name = updatedMovie.name;
+
+    return RedirectToAction("Index");
+}
+
+
+
+
+
+
+
+
+
+
 
       }
 }

@@ -16,7 +16,14 @@
         <tr>
             <td>@movie.Id</td>
             <td>@movie.name</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@movie.Id">edit</a>
+            <a asp-action="Delete" asp-route-id="@movie.Id" onclick="return confirm('Are you sure?');">Delete</a>
+            </td>
         </tr>
     }
     </tbody>
 </table>
+
+
+
