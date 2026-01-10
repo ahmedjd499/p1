@@ -32,7 +32,7 @@
         console.log(id);
         
             fetch('/Movie/Delete2/' + id, {
-                method: 'POST',
+                method: 'DELETE',
             }).then(response => {
                 if (response.ok) {
 
