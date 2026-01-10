@@ -72,8 +72,8 @@ public IActionResult Delete(int id)
 
 
 
-[HttpDelete]
-public IActionResult Delete(int id)
+[HttpPost]
+public IActionResult Delete2(int id)
 {
     var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
     if (movieToRemove == null)

@@ -19,6 +19,7 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@movie.Id">edit</a>
             <a asp-action="Delete" asp-route-id="@movie.Id" onclick="return confirm('Are you sure?');">Delete</a>
+            <button  onclick="deleteMovie(@movie.Id)">Delete 2 </button>
             </td>
         </tr>
     }
@@ -26,4 +27,23 @@
 </table>
 
 
+<script>
+    function deleteMovie(id) {
+        console.log(id);
+        
+            fetch('/Movie/Delete2/' + id, {
+                method: 'POST',
+            }).then(response => {
+                if (response.ok) {
 
+                    console.log('Movie deleted successfully.',response);
+                    alert('Movie deleted successfully.');
+                } else {
+                    alert('Failed to delete the movie.');
+                }
+            });
+        
+    }
+
+
+</script>
