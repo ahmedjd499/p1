@@ -1,17 +1,28 @@
 using Microsoft.AspNetCore.Mvc;
 using ASPCoreFirstApp.Models;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace ASPCoreFirstApp.Controllers
 {
     public class MovieController : Controller
     {
+        private readonly string _moviesFilePath = "data/movies.json";
 
-        List <Movie> movies = new List<Movie>{
-            new Movie { Id = 1, name = "Inception" },
-            new Movie { Id = 2, name = "The Matrix" },
-            new Movie { Id = 3, name = "Interstellar" }
-        };
+        private List<Movie> LoadMovies()
+        {
+            if (!System.IO.File.Exists(_moviesFilePath))
+                return new List<Movie>();
+
+            var json = System.IO.File.ReadAllText(_moviesFilePath);
+            return JsonSerializer.Deserialize<List<Movie>>(json) ?? new List<Movie>();
+        }
+
+        private void SaveMovies(List<Movie> movies)
+        {
+            var json = JsonSerializer.Serialize(movies, new JsonSerializerOptions { WriteIndented = true });
+            System.IO.File.WriteAllText(_moviesFilePath, json);
+        }
 
         List <Customer> customers = new List<Customer>{
             new Customer { Id = 1, name = "Customer A" },
@@ -21,7 +32,8 @@ namespace ASPCoreFirstApp.Controllers
 
       public IActionResult Details()
       {
-        var movie = new Movie() { Id = 1, name = "Inception" };
+        var movies = LoadMovies();
+        var movie = movies.FirstOrDefault(m => m.Id == 1) ?? new Movie() { Id = 1, name = "Inception" };
 
         var viewModel = new MovieCustomerViewModel
         {
@@ -35,6 +47,7 @@ namespace ASPCoreFirstApp.Controllers
 
       public IActionResult Index()
       {
+        var movies = LoadMovies();
         return View(movies);
         }
 
@@ -48,56 +61,60 @@ namespace ASPCoreFirstApp.Controllers
       }
 
 
-public IActionResult Edit(int id)
-{
-    var movie = movies.FirstOrDefault(m => m.Id == id);
-    if (movie == null)
-        return NotFound();
+        public IActionResult Edit(int id)
+        {
+            var movies = LoadMovies();
+            var movie = movies.FirstOrDefault(m => m.Id == id);
+            if (movie == null)
+                return NotFound();
 
-    return View(movie);
-}
-
-
-//  [HttpDelete]
-public IActionResult Delete(int id)
-{
-    var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
-    if (movieToRemove == null)
-        return NotFound();
-
-    movies.Remove(movieToRemove);
-    return Content(movieToRemove.name + " deleted");
-    // return RedirectToAction("Index");
-}
+            return View(movie);
+        }
 
 
+        //  [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            var movies = LoadMovies();
+            var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
+            if (movieToRemove == null)
+                return NotFound();
 
-[HttpDelete]
-public IActionResult Delete2(int id)
-{
-    var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
-    if (movieToRemove == null)
-        return NotFound();
-
-    movies.Remove(movieToRemove);
-    return Content(movieToRemove.name + " deleted");
-    // return RedirectToAction("Index");
-}
+            movies.Remove(movieToRemove);
+            SaveMovies(movies);
+           // return Content(movieToRemove.name + " deleted");
+             return RedirectToAction("Index");
+        }
 
 
+        [HttpPost]
+        public IActionResult Delete2(int id)
+        {
+            var movies = LoadMovies();
+            var movieToRemove = movies.FirstOrDefault(m => m.Id == id);
+            if (movieToRemove == null)
+                return NotFound();
+
+            movies.Remove(movieToRemove);
+            SaveMovies(movies);
+            return Content(movieToRemove.name + " deleted");
+            // return RedirectToAction("Index");
+        }
 
 
-[HttpPost]
-public IActionResult Edit(Movie updatedMovie)
-{
-    var movie = movies.FirstOrDefault(m => m.Id == updatedMovie.Id);
-    if (movie == null)
-        return NotFound();
+        [HttpPost]
+        public IActionResult Edit(Movie updatedMovie)
+        {
+            var movies = LoadMovies();
+            var movie = movies.FirstOrDefault(m => m.Id == updatedMovie.Id);
+            if (movie == null)
+                return NotFound();
 
-    movie.name = updatedMovie.name;
+            movie.name = updatedMovie.name;
+            SaveMovies(movies);
 
-    return RedirectToAction("Index");
-}
+            return RedirectToAction("Index");
+        }
 
 
 
