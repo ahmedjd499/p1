@@ -2,6 +2,11 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+# Install EF Core tools and ASP.NET Code Generator globally
+RUN dotnet tool install --global dotnet-ef --version 8.0.0
+RUN dotnet tool install --global dotnet-aspnet-codegenerator --version 8.0.0
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 # Copy project file and restore dependencies
 COPY *.csproj ./
 RUN dotnet restore
